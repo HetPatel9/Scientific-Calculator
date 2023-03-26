@@ -46,6 +46,7 @@
     width: 95%;
     display: flex;
     justify-content: center;
+    border: 2px solid black;
 }
 
 .box1 {
@@ -53,7 +54,8 @@
     height: 30px;
     margin-bottom: 5px;
 }
-.box1 button{
+
+.box1 button {
     width: 20%;
     margin-right: 10px;
     font-size: 19px;
@@ -62,8 +64,9 @@
 .box2 {
     height: 30px;
     justify-content: space-between;
-margin-bottom: 5px;
+    margin-bottom: 5px;
 }
+
 .box2 button {
     justify-content: center;
     width: 18%;
@@ -74,18 +77,69 @@ margin-bottom: 5px;
     height: 30px;
     justify-content: flex-start;
 }
-.box3 button{
+
+.box3 button {
     width: 30%;
     margin-right: 5px;
     font-size: 20px;
+}
+.function-row {
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
     
 }
-
-/* .box1,
-.box2,
-.box3 {
+.trigonometry{
+    display:none;
+    width: 95%;
+    flex-direction: row;
+}
+.inverseBtn{
+    width: 20%;
+    display: flex;
+}
+.inverseBtn button{
+    width: 80%;
+    height: 30px;
+    align-self: center;
+    margin: auto;
+}
+.rg1{
+    display: flex;
     border: 2px solid blue;
-} */
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+}
+.rg2{
+    display: none;
+    border: 2px solid blue;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+}
+.rg2 button, .rg1 button{
+    width: 30%;
+    height: 30px;
+    margin: auto;
+}
+
+.rg3{
+    display: none;
+    flex-direction: row;
+    width: 95%;
+    border: 2px solid blue;
+    justify-content: center;
+}
+.rg3 button{
+    height: 30px;
+    width: 20%;
+    margin: auto;
+    font-size: 20px;
+}
+
+
 
 .key-pad-row {
     width: 95%;
