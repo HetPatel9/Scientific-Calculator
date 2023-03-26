@@ -10,12 +10,13 @@ buttons.forEach((button) => {
 // var sArray = [];
 let flag = {
     func: false,
-    trigo: false,
-    inverseTrigo: false
+    trigoBox: false,
+    trigoFunc: true
 }
 let screen = [];
 function buttonFunctionality(btnTxt) {
-    const trigoFunc = document.querySelector('.trigonometry');
+    const trigoBox = document.querySelector('.trigonometry');
+    const trigoFunc = document.querySelector('.rg1');
     const inverseTrigoFunc = document.querySelector('.rg2');
     switch (btnTxt) {
         case '1':
@@ -145,33 +146,36 @@ function buttonFunctionality(btnTxt) {
             break;
         case 'Trigonometry':
             console.log('trigoclicked')
-            if (flag.trigo == false) {
-                trigoFunc.style.display = 'flex';
+            if (flag.trigoBox == false) {
+                trigoBox.style.display = 'flex';
+                trigoFunc.style.display='flex';
+                inverseTrigoFunc.style.display='none';
                 console.log('trigoclicked inside if')
-                flag.trigo = true;
+                flag.trigoBox = true;
             }
             else {
                 console.log('trigoclicked inside else')
+                trigoBox.style.display = 'none';
                 trigoFunc.style.display = 'none';
-                flag.trigo = false;
+                inverseTrigoFunc.style.display = 'none';
+                flag.trigoBox = false;
             }
             break;
         case 'Inv':
             // const inverseFuncKey = document.querySelector('.rg2');
-            if (flag.inverseTrigo == false) {
-                console.log("inside inverse func if")
+            if (flag.trigoFunc == true) {
                 inverseTrigoFunc.style.display = 'flex';
-                flag.inverseTrigo = true;
+                // flag.inverseTrigo = true;
                 trigoFunc.style.display = 'none';
-                flag.trigo = false;
-                console.log('idhar kyu nahi aata')
+                flag.trigoFunc = false;
+        
             }
             else {
                 console.log('inside inverse trigo else');
                 inverseTrigoFunc.style.display = 'none';
-                flag.inverseTrigo = false;
+                // flag.inverseTrigo = false;
                 trigoFunc.style.display = 'flex';
-                flag.trigo = true;
+                flag.trigoFunc = true;
             }
             break;
         case '=':
