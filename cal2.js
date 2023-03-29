@@ -3,15 +3,15 @@ let buttons = document.querySelectorAll(".btn");
 buttons.forEach((button) => {
     button.addEventListener('click', function () {
         let text = button.innerText;
-        // console.log(text);
+        console.log(text);
         buttonFunctionality(text);
     });
 })
-// var sArray = [];
 let flag = {
     func: false,
     trigoBox: false,
-    trigoFunc: true
+    trigoFunc: true,
+    isDegree: false
 }
 let screen = [];
 function buttonFunctionality(btnTxt) {
@@ -130,16 +130,57 @@ function buttonFunctionality(btnTxt) {
         case 'ln':
             screen.push('ln(');
             break;
+        case 'RAD':
+            flag.isDegree = true;
+            document.querySelector('.DtoR').innerHTML = 'DEG';
+            break;
+        case 'DEG':
+            flag.isDegree = false;
+            document.querySelector('.DtoR').innerHTML = 'RAD';
+            break;
+        case 'sin':
+            screen.push('sin(');
+            break;
+        case 'cos':
+            screen.push('cos(');
+            break;
+        case 'tan':
+            screen.push('tan(');
+            break;
+        case 'sinh':
+            screen.push('sinh(');
+            break;
+        case 'cosh':
+            screen.push('cosh(');
+            break;
+        case 'tanh':
+            screen.push('tanh(');
+            break;
+        case 'sin-1':
+            screen.push('sin-1(');
+            break;
+        case 'cos-1':
+            screen.push('cos-1(');
+            break;
+        case 'tan-1':
+            screen.push('tan-1(');
+            break;
+        case 'sinh-1':
+            screen.push('sinh-1(');
+            break;
+        case 'cosh-1':
+            screen.push('cosh-1(');
+            break;
+        case 'tanh-1':
+            screen.push('tanh-1(');
+            break;
         case 'Function':
-            // screen.push('ln(');
             const row1 = document.querySelector('.rg3');
             if (flag.func == false) {
-                // console.log('in function');
                 row1.style.display = 'flex';
                 flag.func = true;
             }
             else {
-                // console.log('in function');
                 row1.style.display = 'none';
                 flag.func = false;
             }
@@ -148,8 +189,8 @@ function buttonFunctionality(btnTxt) {
             console.log('trigoclicked')
             if (flag.trigoBox == false) {
                 trigoBox.style.display = 'flex';
-                trigoFunc.style.display='flex';
-                inverseTrigoFunc.style.display='none';
+                trigoFunc.style.display = 'flex';
+                inverseTrigoFunc.style.display = 'none';
                 console.log('trigoclicked inside if')
                 flag.trigoBox = true;
             }
@@ -162,18 +203,14 @@ function buttonFunctionality(btnTxt) {
             }
             break;
         case 'Inv':
-            // const inverseFuncKey = document.querySelector('.rg2');
             if (flag.trigoFunc == true) {
                 inverseTrigoFunc.style.display = 'flex';
-                // flag.inverseTrigo = true;
                 trigoFunc.style.display = 'none';
                 flag.trigoFunc = false;
-        
             }
             else {
                 console.log('inside inverse trigo else');
                 inverseTrigoFunc.style.display = 'none';
-                // flag.inverseTrigo = false;
                 trigoFunc.style.display = 'flex';
                 flag.trigoFunc = true;
             }
@@ -221,7 +258,6 @@ function calculation(temp) {
                 // console.log(i);
                 let num = factNum(i);
                 let ans = fact(num);
-                calArray.pop();
                 calArray.push(ans);
                 console.log(calArray);
                 break;
@@ -252,8 +288,43 @@ function calculation(temp) {
             case 'round(':
                 calArray.push('Math.round(');
                 break;
+            case 'sin(':
+                calArray.push(flag.isDegree == false ? `Math.sin(` : `Math.sin(Math.PI/180*`);
+                break;
+            case 'cos(':
+                calArray.push(flag.isDegree == false ? `Math.cos(` : `Math.cos(Math.PI/180*`);
+                break;
+            case 'tan(':
+                calArray.push(flag.isDegree == false ? `Math.tan(` : `Math.tan(Math.PI/180*`);
+                break;
+            case 'sinh(':
+                calArray.push(flag.isDegree == false ? `Math.sinh(` : `Math.sinh(Math.PI/180*`);
+                break;
+            case 'cosh(':
+                calArray.push(flag.isDegree == false ? `Math.cosh(` : `Math.cosh(Math.PI/180*`);
+                break;
+            case 'tanh(':
+                calArray.push(flag.isDegree == false ? `Math.tanh(` : `Math.tanh(Math.PI/180*`);
+                break;
+            case 'sin-1(':
+                calArray.push('Math.asin(');
+                break;
+            case 'cos-1(':
+                calArray.push('Math.acos(');
+                break;
+            case 'tan-1(':
+                calArray.push('Math.atan(');
+                break;
+            case 'sinh-1(':
+                calArray.push('Math.asinh(');
+                break;
+            case 'cosh-1(':
+                calArray.push('Math.acosh(');
+                break;
+            case 'tanh-1(':
+                calArray.push('Math.atanh(');
+                break;
             default:
-                // calArray.pop();
                 calArray.push(sArray[i]);
                 break;
         }
@@ -261,7 +332,7 @@ function calculation(temp) {
     console.log(calArray);
     try {
         let ans = eval(calArray.join(''));
-
+        // Do i need to add condition to display error if ans is NaN ?
         return ans;
     }
     catch {
@@ -275,15 +346,19 @@ function calculation(temp) {
     }
 
 }
-// let popCnt=0;
 function factNum(index) {
     console.log('in factNum');
     let num = [];
-    if (sArray[index - 1] != ')') {
+    if(isNaN(sArray[index-1])){
+        return new Error('ERror');
+    }
+    else if (sArray[index - 1] != ')') {
         for (let i = index - 1; i >= 0; i--) {
             if (!isNaN(sArray[i])) {
                 num.unshift(sArray[i]);
+                // console.log(num);
                 calArray.pop();
+                // console.log(calArray);
             }
             else {
                 break;
@@ -291,12 +366,13 @@ function factNum(index) {
         }
         return num.join('');
     }
-    else {
+    else{
         let temp = [];
         for (let i = index - 1; i >= 0; i--) {
             if (sArray[i] == '(') {
                 // console.log('matched');
                 temp.unshift(sArray[i]);
+            
                 calArray.pop();
                 break;
             }
