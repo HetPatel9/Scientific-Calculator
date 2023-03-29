@@ -14,6 +14,7 @@ let flag = {
     isDegree: false
 }
 let screen = [];
+let memory = '';
 function buttonFunctionality(btnTxt) {
     const trigoBox = document.querySelector('.trigonometry');
     const trigoFunc = document.querySelector('.rg1');
@@ -115,17 +116,41 @@ function buttonFunctionality(btnTxt) {
         case 'log':
             screen.push('log(');
             break;
+        case '+/-':
+            let tval = [];
+            for (let m=screen.length ; m>=0;m--){
+                if(isNaN(screen[m])){
+                    tval.unshift(screen[m]);
+                    screen.pop();
+                }
+                else{
+                    break;
+                }
+            }
+            let intermediate = eval(tval.join('')) * -1;
+            screen.pop();
+            screen.push(intermediate);
+            break;
+        // case '∛':
+        //     screen.push('∛(');
+        //     break;
+        case 'History':
+        console.log(history);
+            break;
         case 'Ceil':
-            console.log('clicked ceil')
-            screen.push('ceil(');
+            let ceil = Math.ceil(eval(screen.join('')));
+            screen = [];
+            screen.push(ceil);
             break;
         case 'Floor':
-            console.log('clicked floor')
-            screen.push('floor(');
+            let floor = Math.floor(eval(screen.join('')));
+            screen = [];
+            screen.push(floor);
             break;
         case 'Round':
-            console.log('clicked Round')
-            screen.push('round(');
+            let round = Math.round(eval(screen.join('')));
+            screen = [];
+            screen.push(round);
             break;
         case 'ln':
             screen.push('ln(');
@@ -215,11 +240,38 @@ function buttonFunctionality(btnTxt) {
                 flag.trigoFunc = true;
             }
             break;
+        case 'Sci.Notation':
+            let tempans = eval(screen.join('')).toExponential();
+            screen = [];
+            screen.push(tempans);
+            break;
         case '=':
             let ans = calculation(screen);
             screen = [];
             screen.push(ans);
             console.log("screen array " + screen);
+            break;
+        case 'MC':
+            memory = 0;
+            screen = [];
+            console.log('memory value is :' + memory);
+            break;
+        case 'MS':
+            memory = eval(screen.join(''));
+            console.log('memory value is :' + memory);
+            break;
+        case 'M+':
+            memory += eval(screen.join(''));
+            console.log('memory value is :' + memory);
+            break;
+        case 'M-':
+            memory -= eval(screen.join(''));
+            console.log('memory value is :' + memory);
+            break;
+        case 'MR':
+            // screen = [];
+            screen.push(memory);
+            console.log('memory value is :' + memory);
             break;
         default:
             console.log("under working button");
@@ -232,6 +284,7 @@ function buttonFunctionality(btnTxt) {
 }
 let sArray = [];
 let calArray = [];
+let history = [];
 function calculation(temp) {
     sArray = temp;
     // console.log('the sArray is: ', sArray);
@@ -279,14 +332,8 @@ function calculation(temp) {
             case '√(':
                 calArray.push('Math.sqrt(');
                 break;
-            case 'ceil(':
-                calArray.push('Math.ceil(');
-                break;
-            case 'floor(':
-                calArray.push('Math.floor(');
-                break;
-            case 'round(':
-                calArray.push('Math.round(');
+            case '∛(':
+                calArray.push('Math.cbrt(');
                 break;
             case 'sin(':
                 calArray.push(flag.isDegree == false ? `Math.sin(` : `Math.sin(Math.PI/180*`);
@@ -331,7 +378,9 @@ function calculation(temp) {
     }
     console.log(calArray);
     try {
+        history.push(calArray.join(''));
         let ans = eval(calArray.join(''));
+        history.push(ans);
         // Do i need to add condition to display error if ans is NaN ?
         return ans;
     }
@@ -341,6 +390,7 @@ function calculation(temp) {
     }
     finally {
         console.log("calArray " + calArray);
+        
         calArray = [];
         console.log("calArray " + calArray);
     }
@@ -349,7 +399,7 @@ function calculation(temp) {
 function factNum(index) {
     console.log('in factNum');
     let num = [];
-    if(isNaN(sArray[index-1])){
+    if (isNaN(sArray[index - 1])) {
         return new Error('ERror');
     }
     else if (sArray[index - 1] != ')') {
@@ -366,13 +416,13 @@ function factNum(index) {
         }
         return num.join('');
     }
-    else{
+    else {
         let temp = [];
         for (let i = index - 1; i >= 0; i--) {
             if (sArray[i] == '(') {
                 // console.log('matched');
                 temp.unshift(sArray[i]);
-            
+
                 calArray.pop();
                 break;
             }
