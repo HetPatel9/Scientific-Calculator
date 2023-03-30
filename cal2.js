@@ -11,10 +11,11 @@ let flag = {
     func: false,
     trigoBox: false,
     trigoFunc: true,
-    isDegree: false
+    isDegree: false,
 }
 let screen = [];
 let memory = '';
+let hCounter = -1;
 function buttonFunctionality(btnTxt) {
     const trigoBox = document.querySelector('.trigonometry');
     const trigoFunc = document.querySelector('.rg1');
@@ -70,6 +71,7 @@ function buttonFunctionality(btnTxt) {
             break;
         case 'C':
             screen = [];
+            hCounter = -1;
             break;
         case 'back':
             screen.pop();
@@ -91,9 +93,6 @@ function buttonFunctionality(btnTxt) {
             break;
         case '1/x':
             screen.push('1/');
-            break;
-        case 'exp':
-            screen.push('E');
             break;
         case '√x':
             screen.push('√(');
@@ -117,26 +116,20 @@ function buttonFunctionality(btnTxt) {
             screen.push('log(');
             break;
         case '+/-':
-            let tval = [];
-            for (let m=screen.length ; m>=0;m--){
-                if(isNaN(screen[m])){
-                    tval.unshift(screen[m]);
-                    screen.pop();
-                }
-                else{
+            let change = [];
+            for (let i = screen.length - 1; i > -1; i--) {
+                if (isNaN(screen[i])) {
                     break;
                 }
+                else {
+                    change.unshift(screen[i]);
+                    screen.pop();
+                }
             }
-            let intermediate = eval(tval.join('')) * -1;
-            screen.pop();
-            screen.push(intermediate);
+            let num = eval(change.join(''));
+            screen.push(num * -1);
             break;
-        // case '∛':
-        //     screen.push('∛(');
-        //     break;
-        case 'History':
-        console.log(history);
-            break;
+
         case 'Ceil':
             let ceil = Math.ceil(eval(screen.join('')));
             screen = [];
@@ -241,9 +234,9 @@ function buttonFunctionality(btnTxt) {
             }
             break;
         case 'Sci.Notation':
-            let tempans = eval(screen.join('')).toExponential();
+            let tempAns = eval(screen.join('')).toExponential();
             screen = [];
-            screen.push(tempans);
+            screen.push(tempAns);
             break;
         case '=':
             let ans = calculation(screen);
@@ -258,6 +251,9 @@ function buttonFunctionality(btnTxt) {
             break;
         case 'MS':
             memory = eval(screen.join(''));
+            if (isNaN(memory)) {
+                memory = 0;
+            }
             console.log('memory value is :' + memory);
             break;
         case 'M+':
@@ -273,6 +269,33 @@ function buttonFunctionality(btnTxt) {
             screen.push(memory);
             console.log('memory value is :' + memory);
             break;
+        case 'H+':
+
+            // historyFunc('+');
+            // Workes when array is full (length is 5)
+            console.log(hCounter);
+            screen = [];
+            hCounter++;
+            if (hCounter == history.length) { hCounter = 0; }
+            screen.push(history[hCounter]);
+            if (hCounter == history.length - 1) { hCounter = -1; }
+            console.log(history);
+            console.log(hCounter);
+            break;
+        case 'H-':
+
+
+            // historyFunc('-');
+            // Workes when array is full (length is 5)
+            console.log(hCounter);
+            screen = [];
+            hCounter--;
+            if (hCounter == -2) { hCounter++; }
+            if (hCounter == -1) { hCounter = history.length - 1;}
+            console.log(history);
+            screen.push(history[hCounter]);
+            console.log(hCounter);
+            break;
         default:
             console.log("under working button");
             break;
@@ -282,6 +305,23 @@ function buttonFunctionality(btnTxt) {
     // let screenText = screen.join('');
     document.querySelector('input').value = screen.join('');
 }
+
+function historyFunc(sign) {
+    console.log(history);
+    if (sign == '+') {
+        console.log("H+ pressed");
+        hCounter++;
+        if (hCounter == history.length) { hCounter = 0; }
+    }
+    else {
+        console.log('H- is pressed');
+        hCounter--;
+        if (hCounter == -1) { hCounter = history.length - 1; }
+    }
+    screen = [];
+    screen.push(history[hCounter]);
+}
+
 let sArray = [];
 let calArray = [];
 let history = [];
@@ -318,7 +358,7 @@ function calculation(temp) {
                 calArray.push('10**');
                 break;
             case 'E':
-                calArray.push('10**');
+                calArray.push('*10**');
                 break;
             case '1/':
                 calArray.push('1/');
@@ -378,9 +418,15 @@ function calculation(temp) {
     }
     console.log(calArray);
     try {
-        history.push(calArray.join(''));
+        // history.push(calArray.join(''));
         let ans = eval(calArray.join(''));
-        history.push(ans);
+        if (history.length < 5) {
+            history.unshift(ans);
+        }
+        else {
+            history.pop();
+            history.unshift(ans);
+        }
         // Do i need to add condition to display error if ans is NaN ?
         return ans;
     }
@@ -390,7 +436,6 @@ function calculation(temp) {
     }
     finally {
         console.log("calArray " + calArray);
-        
         calArray = [];
         console.log("calArray " + calArray);
     }
@@ -399,7 +444,7 @@ function calculation(temp) {
 function factNum(index) {
     console.log('in factNum');
     let num = [];
-    if (isNaN(sArray[index - 1])) {
+    if (isNaN(sArray[index - 1]) && sArray[index - 1] != ')') {
         return new Error('ERror');
     }
     else if (sArray[index - 1] != ')') {

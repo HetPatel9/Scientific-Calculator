@@ -3,13 +3,14 @@
 }
 
 .calculator {
-    width: 100%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 2px solid black;
-    /* margin: auto; */
+    margin: auto;
+    background-color: cadetblue;
 }
 
 .screen,
@@ -33,7 +34,7 @@
 }
 
 #screen {
-    width: 95%;
+    width: 92%;
     height: 45px;
     font-size: 33px;
     padding-right: 10px;
@@ -83,68 +84,80 @@
     margin-right: 5px;
     font-size: 20px;
 }
+
 .function-row {
-    display:flex;
+    display: flex;
     flex-direction: row;
-    width:100%;
+    width: 100%;
     justify-content: center;
-    
+
 }
-.trigonometry{
-    display:none;
+
+.trigonometry {
+    display: none;
     width: 95%;
     flex-direction: row;
 }
-.inverseBtn{
+
+.inverseBtn {
     width: 20%;
     display: flex;
 }
-.inverseBtn button{
+
+.inverseBtn button {
     width: 80%;
     height: 30px;
     align-self: center;
     margin: auto;
 }
-.rg1{
+
+.rg1 {
     display: flex;
     /* border: 2px solid blue; */
     flex-direction: column;
     width: 80%;
     justify-content: center;
 }
-.rg2{
+
+.rg2 {
     display: none;
     /* border: 2px solid blue; */
     flex-direction: column;
     width: 80%;
     justify-content: center;
 }
-.rg2 button, .rg1 button{
+
+.rg2 button,
+.rg1 button {
     width: 30%;
     height: 30px;
     margin: auto;
     font-size: 18px;
 }
-.inv{
+
+.inv {
     font-size: 18px;
 }
-.rg3{
+
+.rg3 {
     display: none;
     flex-direction: row;
     width: 95%;
     /* border: 2px solid blue; */
     justify-content: center;
 }
-.rg3 button{
+
+.rg3 button {
     height: 30px;
     width: 20%;
     margin: auto;
     font-size: 18px;
 }
 
-.function-row{
+.function-row {
     margin-top: 4px;
 }
+
 
 .key-pad-row {
     width: 95%;
@@ -161,4 +174,30 @@
     text-align: space-evenly;
     font-size: 20px;
     /* border: none; */
+}
+
+.historyBtn button {
+    width: 48%;
+    /* height: 25px; */
+}
+.historyBtn{
+    display: flex;
+    width: 19%;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+.history {
+    display: block;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
+    /* border: 2px solid black; */
+}
+img{
+    height: 100%;
+    background-color: transparent;
+}
+.num{
+    font-weight: 600;
 }
