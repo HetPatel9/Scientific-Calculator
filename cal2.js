@@ -106,7 +106,7 @@ function buttonFunctionality(btnTxt) {
         case 'n!':
             screen.push('!');
             break;
-        case 'Xy':
+        case 'xy':
             screen.push('^');
             break;
         case '10x':
@@ -233,7 +233,7 @@ function buttonFunctionality(btnTxt) {
                 flag.trigoFunc = true;
             }
             break;
-        case 'Sci.Notation':
+        case 'F-E':
             let tempAns = eval(screen.join('')).toExponential();
             screen = [];
             screen.push(tempAns);
@@ -270,31 +270,28 @@ function buttonFunctionality(btnTxt) {
             console.log('memory value is :' + memory);
             break;
         case 'H+':
-
-            // historyFunc('+');
-            // Workes when array is full (length is 5)
-            console.log(hCounter);
-            screen = [];
-            hCounter++;
-            if (hCounter == history.length) { hCounter = 0; }
-            screen.push(history[hCounter]);
-            if (hCounter == history.length - 1) { hCounter = -1; }
             console.log(history);
-            console.log(hCounter);
+            if (hCounter == -1) {
+                hCounter = 0;
+              }
+            else {
+                hCounter = (hCounter + 1) % history.length;
+              }
+              screen=[];
+              screen.push(history[hCounter]);    
+        
             break;
         case 'H-':
-
-
-            // historyFunc('-');
-            // Workes when array is full (length is 5)
-            console.log(hCounter);
-            screen = [];
-            hCounter--;
-            if (hCounter == -2) { hCounter++; }
-            if (hCounter == -1) { hCounter = history.length - 1;}
             console.log(history);
-            screen.push(history[hCounter]);
-            console.log(hCounter);
+            if (hCounter == -1) {
+                hCounter = history.length - 1;
+              } 
+            else {
+                hCounter = (hCounter - 1 + history.length) % history.length;
+              }
+              screen=[];
+              screen.push(history[hCounter]);
+
             break;
         default:
             console.log("under working button");
@@ -304,22 +301,6 @@ function buttonFunctionality(btnTxt) {
     // console.log(screen.join(''));
     // let screenText = screen.join('');
     document.querySelector('input').value = screen.join('');
-}
-
-function historyFunc(sign) {
-    console.log(history);
-    if (sign == '+') {
-        console.log("H+ pressed");
-        hCounter++;
-        if (hCounter == history.length) { hCounter = 0; }
-    }
-    else {
-        console.log('H- is pressed');
-        hCounter--;
-        if (hCounter == -1) { hCounter = history.length - 1; }
-    }
-    screen = [];
-    screen.push(history[hCounter]);
 }
 
 let sArray = [];
