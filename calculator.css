@@ -53,7 +53,8 @@
     margin-bottom: 5px;
 }
 
-.btn, input {
+.btn,
+input {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -172,14 +173,19 @@
     margin-bottom: 3px;
 }
 
-button, input {
+button{
     border: none;
     background-color: rgb(240, 240, 240);
 }
-.trigo-svg-2{
-   transform: rotate(-90deg);
-   margin-left: 5px;
+input{
+    border: none;
 }
+
+.trigo-svg-2 {
+    transform: rotate(-90deg);
+    margin-left: 5px;
+}
+
 .key-pad-row button {
     width: 19%;
     height: 40px;
@@ -218,16 +224,19 @@ button:hover {
         width: 36%;
     }
 }
+
 @media screen and (max-width:1200px) {
     .calculator {
         width: 44%;
     }
 }
+
 @media screen and (max-width:1050px) {
     .calculator {
         width: 50%;
     }
 }
+
 @media screen and (max-width:850px) {
     .calculator {
         width: 75%;

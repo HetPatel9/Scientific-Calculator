@@ -1,9 +1,7 @@
 let buttons = document.querySelectorAll(".btn");
-// console.log(buttons);
 buttons.forEach((button) => {
     button.addEventListener('click', function () {
         let text = button.innerText;
-        console.log(text);
         buttonFunctionality(text);
     });
 })
@@ -204,16 +202,14 @@ function buttonFunctionality(btnTxt) {
             }
             break;
         case 'Trigonometry':
-            console.log('trigoclicked')
             if (flag.trigoBox == false) {
                 trigoBox.style.display = 'flex';
                 trigoFunc.style.display = 'flex';
                 inverseTrigoFunc.style.display = 'none';
-                console.log('trigoclicked inside if')
+
                 flag.trigoBox = true;
             }
             else {
-                console.log('trigoclicked inside else')
                 trigoBox.style.display = 'none';
                 trigoFunc.style.display = 'none';
                 inverseTrigoFunc.style.display = 'none';
@@ -227,7 +223,6 @@ function buttonFunctionality(btnTxt) {
                 flag.trigoFunc = false;
             }
             else {
-                console.log('inside inverse trigo else');
                 inverseTrigoFunc.style.display = 'none';
                 trigoFunc.style.display = 'flex';
                 flag.trigoFunc = true;
@@ -242,64 +237,51 @@ function buttonFunctionality(btnTxt) {
             let ans = calculation(screen);
             screen = [];
             screen.push(ans);
-            console.log("screen array " + screen);
             break;
         case 'MC':
             memory = 0;
             screen = [];
-            console.log('memory value is :' + memory);
             break;
         case 'MS':
             memory = eval(screen.join(''));
             if (isNaN(memory)) {
                 memory = 0;
             }
-            console.log('memory value is :' + memory);
             break;
         case 'M+':
             memory += eval(screen.join(''));
-            console.log('memory value is :' + memory);
             break;
         case 'M-':
             memory -= eval(screen.join(''));
-            console.log('memory value is :' + memory);
             break;
         case 'MR':
-            // screen = [];
             screen.push(memory);
-            console.log('memory value is :' + memory);
             break;
         case 'H+':
-            console.log(history);
             if (hCounter == -1) {
                 hCounter = 0;
-              }
+            }
             else {
                 hCounter = (hCounter + 1) % history.length;
-              }
-              screen=[];
-              screen.push(history[hCounter]);    
-        
+            }
+            screen = [];
+            screen.push(history[hCounter]);
+
             break;
         case 'H-':
-            console.log(history);
             if (hCounter == -1) {
                 hCounter = history.length - 1;
-              } 
+            }
             else {
                 hCounter = (hCounter - 1 + history.length) % history.length;
-              }
-              screen=[];
-              screen.push(history[hCounter]);
+            }
+            screen = [];
+            screen.push(history[hCounter]);
 
             break;
         default:
-            console.log("under working button");
             break;
     }
-    // console.log(screen);
-    // console.log(screen.join(''));
-    // let screenText = screen.join('');
     document.querySelector('input').value = screen.join('');
 }
 
@@ -308,10 +290,7 @@ let calArray = [];
 let history = [];
 function calculation(temp) {
     sArray = temp;
-    // console.log('the sArray is: ', sArray);
     for (let i = 0; i < sArray.length; i++) {
-        // console.log(sArray);
-        // console.log(calArray);
         switch (sArray[i]) {
             case '^':
                 calArray.push('**');
@@ -329,11 +308,9 @@ function calculation(temp) {
                 calArray.push('Math.abs(');
                 break;
             case '!':
-                // console.log(i);
                 let num = factNum(i);
                 let ans = fact(num);
                 calArray.push(ans);
-                console.log(calArray);
                 break;
             case '10^':
                 calArray.push('10**');
@@ -397,9 +374,7 @@ function calculation(temp) {
                 break;
         }
     }
-    console.log(calArray);
     try {
-        // history.push(calArray.join(''));
         let ans = eval(calArray.join(''));
         if (history.length < 5) {
             history.unshift(ans);
@@ -408,22 +383,18 @@ function calculation(temp) {
             history.pop();
             history.unshift(ans);
         }
-        // Do i need to add condition to display error if ans is NaN ?
         return ans;
     }
     catch {
-        console.log("ERROR in eval of calArray");
         return "Error";
     }
     finally {
-        console.log("calArray " + calArray);
         calArray = [];
-        console.log("calArray " + calArray);
     }
 
 }
 function factNum(index) {
-    console.log('in factNum');
+
     let num = [];
     if (isNaN(sArray[index - 1]) && sArray[index - 1] != ')') {
         return new Error('ERror');
@@ -432,9 +403,7 @@ function factNum(index) {
         for (let i = index - 1; i >= 0; i--) {
             if (!isNaN(sArray[i])) {
                 num.unshift(sArray[i]);
-                // console.log(num);
                 calArray.pop();
-                // console.log(calArray);
             }
             else {
                 break;
@@ -446,26 +415,19 @@ function factNum(index) {
         let temp = [];
         for (let i = index - 1; i >= 0; i--) {
             if (sArray[i] == '(') {
-                // console.log('matched');
                 temp.unshift(sArray[i]);
-
                 calArray.pop();
                 break;
             }
             else {
-                // console.log('not matched');
                 temp.unshift(sArray[i]);
                 calArray.pop();
             }
         }
-        //     console.log(temp , calArray);
-        //    console.log(eval(temp.join('')));
-
         return eval(temp.join(''));
     }
 }
 function fact(n) {
-    console.log('in fact');
     let ans = 1;
     if (n == 0) {
         return 1;
@@ -478,6 +440,5 @@ function fact(n) {
     else {
         ans = "error";
     }
-    console.log('the factorial of num is:' + ans);
     return ans;
 }
